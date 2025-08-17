@@ -1,11 +1,11 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, constant_identifier_names
 
 class RouteConstants {
-  static const STOPS_OVERVIEW_PATH = '/';
+  static const STOPS_OVERVIEW_PATH = '/overview';
   static const STOPS_OVERVIEW_NAME = 'stops-overview';
   static const STOPS_OVERVIEW_TITLE = 'Seznam zastávek';
 
-  static const STOP_DEPARTURE_BOARD_PATH = ':stopId';
+  static const STOP_DEPARTURE_BOARD_PATH = 'board/:stopId';
   static const STOP_DEPARTURE_BOARD_NAME = 'stop-departure-board';
   static const STOP_DEPARTURE_BOARD_TITLE = 'Odjezdy ze zastávky';
 

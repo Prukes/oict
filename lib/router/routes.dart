@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:oict/features/stops_overview/presentation/stops_overview_screen.dart';
 import 'package:oict/router/route_constants.dart';
 
 part 'routes.g.dart';
@@ -39,6 +40,7 @@ class AppShell extends ShellRouteData {
               )
             : null,
       ),
+      body: navigator,
     );
   }
 
@@ -57,10 +59,13 @@ class AppShell extends ShellRouteData {
 
   bool _hasLeadingButton(GoRouterState state) {
     final match = state.topRoute;
-    return switch (match) {
-      StopsOverviewRouteData() => false,
+    final bb = switch (match) {
+      StopsOverviewRouteData _ => false,
+      StopDepartureBoardRouteData _ => true,
+      VehicleMapRouteData _ => true,
       _ => false,
     };
+    return bb;
   }
 }
 
@@ -68,7 +73,7 @@ class StopsOverviewRouteData extends GoRouteData with _$StopsOverviewRouteData {
   const StopsOverviewRouteData();
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return Text('');
+    return StopsOverviewScreen();
   }
 }
 

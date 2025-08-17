@@ -8,5 +8,8 @@ class OictRouter {
   }
   OictRouter._();
 
-  GoRouter router = GoRouter(routes: $appRoutes, initialLocation: StopsOverviewRouteData().location);
+  GoRouter router = GoRouter(
+    routes: $appRoutes,
+    initialLocation: StopsOverviewRouteData().location,
+  );
 }
