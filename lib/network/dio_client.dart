@@ -5,10 +5,10 @@ class DioClient {
 
   DioClient(this._dio);
 
-  Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) async {
+  Future<Response<T>> get<T>(String path, {Map<String, dynamic>? queryParameters}) async {
     try {
       final response = await _dio.get(path, queryParameters: queryParameters);
-      return response;
+      return response.data;
     } catch (e) {
       rethrow;
     }
