@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:oict/features/stop_departure_board/presentation/bloc/stop_departure_board_bloc.dart';
+import 'package:oict/features/stop_departure_board/presentation/stop_departure_board_screen.dart';
+import 'package:oict/features/stops_overview/presentation/cubit/stops_overview_cubit.dart';
 import 'package:oict/features/stops_overview/presentation/stops_overview_screen.dart';
 import 'package:oict/router/route_constants.dart';
 
@@ -58,14 +62,12 @@ class AppShell extends ShellRouteData {
   }
 
   bool _hasLeadingButton(GoRouterState state) {
-    final match = state.topRoute;
-    final bb = switch (match) {
-      StopsOverviewRouteData _ => false,
-      StopDepartureBoardRouteData _ => true,
-      VehicleMapRouteData _ => true,
+    return switch (state.topRoute?.name) {
+      RouteConstants.STOPS_OVERVIEW_NAME => false,
+      RouteConstants.STOP_DEPARTURE_BOARD_NAME => true,
+      RouteConstants.VEHICLE_MAP_NAME => true,
       _ => false,
     };
-    return bb;
   }
 }
 
@@ -73,7 +75,10 @@ class StopsOverviewRouteData extends GoRouteData with _$StopsOverviewRouteData {
   const StopsOverviewRouteData();
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return StopsOverviewScreen();
+    return BlocProvider(
+      create: (context) => StopsOverviewCubit()..loadStops(),
+      child: StopsOverviewScreen(),
+    );
   }
 }
 
@@ -82,7 +87,11 @@ class StopDepartureBoardRouteData extends GoRouteData with _$StopDepartureBoardR
   const StopDepartureBoardRouteData({required this.stopId});
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return Text('');
+    return BlocProvider(
+      key: ValueKey(stopId),
+      create: (context) => StopDepartureBoardBloc(stopId: stopId)..add(StopDepartureBoardEvent.started()),
+      child: StopDepartureBoardScreen(),
+    );
   }
 }
 

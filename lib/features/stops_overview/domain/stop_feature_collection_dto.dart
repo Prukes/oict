@@ -37,14 +37,14 @@ abstract class StopGeometryDto with _$StopGeometryDto {
 @freezed
 abstract class StopPropertiesDto with _$StopPropertiesDto {
   const factory StopPropertiesDto({
-    required int location_type,
-    String? parent_station,
-    required String platform_code,
-    required String stop_id,
-    required String stop_name,
-    required int wheelchair_boarding,
-    required String zone_id,
-    String? level_id,
+    @JsonKey(name: 'location_type') required int locationType,
+    @JsonKey(name: 'parent_station') String? parentStation,
+    @JsonKey(name: 'platform_code') String? platformCode,
+    @JsonKey(name: 'stop_id') required String stopId,
+    @JsonKey(name: 'stop_name') required String stopName,
+    @JsonKey(name: 'wheelchair_boarding') required int wheelchairBoarding,
+    @JsonKey(name: 'zone_id') String? zoneId,
+    @JsonKey(name: 'level_id') String? levelId,
   }) = _StopPropertiesDto;
 
   factory StopPropertiesDto.fromJson(Map<String, dynamic> json) => _$StopPropertiesDtoFromJson(json);

@@ -41,6 +41,7 @@ dependencies:
   dio: ^5.9.0
   flutter_dotenv: ^5.2.1
   json_annotation: ^4.9.0
+  infinite_scroll_pagination: ^5.1.0
 
 dev_dependencies:
   flutter_test:

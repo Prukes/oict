@@ -7,16 +7,16 @@ class DioClient {
 
   Future<Response<T>> get<T>(String path, {Map<String, dynamic>? queryParameters}) async {
     try {
-      final response = await _dio.get(path, queryParameters: queryParameters);
-      return response.data;
+      final response = await _dio.get<T>(path, queryParameters: queryParameters);
+      return response;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<Response> post(String path, {Map<String, dynamic>? data}) async {
+  Future<Response<T>> post<T>(String path, {Object? data}) async {
     try {
-      final response = await _dio.post(path, data: data);
+      final response = await _dio.post<T>(path, data: data);
       return response;
     } catch (e) {
       rethrow;
