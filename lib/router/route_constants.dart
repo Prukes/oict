@@ -9,7 +9,7 @@ class RouteConstants {
   static const STOP_DEPARTURE_BOARD_NAME = 'stop-departure-board';
   static const STOP_DEPARTURE_BOARD_TITLE = 'Odjezdy ze zastávky';
 
-  static const VEHICLE_MAP_PATH = ':stopId/map/:vehicleId';
+  static const VEHICLE_MAP_PATH = 'map/:vehicleId';
   static const VEHICLE_MAP_NAME = 'vehicle-map';
   static const VEHICLE_MAP_TITLE = 'Aktuální poloha vozidla';
 }

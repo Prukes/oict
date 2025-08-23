@@ -7,10 +7,6 @@ sealed class StopsOverviewState with _$StopsOverviewState {
   const factory StopsOverviewState.success({required StopsOverviewStateData data}) = StopsOverviewStateSuccess;
   const factory StopsOverviewState.error({required StopsOverviewStateData data, required String errorMessage}) =
       StopsOverviewStateError;
-  const factory StopsOverviewState.openedFilter({required StopsOverviewStateData data}) =
-      StopsOverviewStateOpenedFilter;
-  const factory StopsOverviewState.appliedFilter({required StopsOverviewStateData data}) =
-      StopsOverviewStateAppliedFilter;
 }
 
 @freezed

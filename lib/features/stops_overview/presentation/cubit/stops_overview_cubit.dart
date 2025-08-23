@@ -6,7 +6,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:oict/features/stops_overview/data/stops_overview_service.dart';
 import 'package:oict/features/stops_overview/domain/stop_feature_collection_dto.dart';
 import 'package:oict/helpers/app_event.dart';
-import 'package:oict/helpers/app_event_bus.dart';
 import 'package:oict/network/dio_instance.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -18,19 +17,11 @@ class StopsOverviewCubit extends Cubit<StopsOverviewState> {
   late final StreamSubscription<AppEvent> listener;
   StopsOverviewCubit()
     : _service = StopsOverviewService(DioInstance.instance),
-      super(StopsOverviewState.initial(data: StopsOverviewStateData(pagingState: PagingState()))) {
-    listener = AppEventBus.instance.events.listen(
-      (event) {
-        if (event is FilterClicked) {
-          if (state.data.filter == null || (state.data.filter?.isEmpty ?? true)) {
-            emit(StopsOverviewState.openedFilter(data: state.data));
-          } else {
-            emit(StopsOverviewState.success(data: state.data.copyWith(filter: null)));
-          }
-        }
-      },
-    );
-  }
+      super(
+        StopsOverviewState.initial(
+          data: StopsOverviewStateData(pagingState: PagingState(), isFiltered: false, limit: 5),
+        ),
+      );
 
   void loadStops() async {
     try {
@@ -44,7 +35,7 @@ class StopsOverviewCubit extends Cubit<StopsOverviewState> {
       final isLastPage = stops.features.isEmpty;
       emit(
         StopsOverviewState.success(
-          data: StopsOverviewStateData(
+          data: state.data.copyWith(
             pagingState: state.data.pagingState.copyWith(
               hasNextPage: !isLastPage,
               keys: [...?state.data.pagingState.keys, newKey],
@@ -75,10 +66,22 @@ class StopsOverviewCubit extends Cubit<StopsOverviewState> {
     } else {
       emit(
         StopsOverviewState.success(
-          data: state.data.copyWith(pagingState: PagingState(), filter: filter),
+          data: state.data.copyWith(
+            pagingState: PagingState(),
+            filter: filter,
+            isFiltered: true,
+            offset: 0,
+          ),
         ),
       );
       loadStops();
     }
+  }
+
+  void removeFilter() {
+    emit(
+      state.copyWith(data: state.data.copyWith(isFiltered: false, filter: null, offset: 0, pagingState: PagingState())),
+    );
+    loadStops();
   }
 }

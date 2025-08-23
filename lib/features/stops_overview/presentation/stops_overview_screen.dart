@@ -5,6 +5,7 @@ import 'package:oict/features/stops_overview/domain/stop_feature_collection_dto.
 import 'package:oict/features/stops_overview/presentation/cubit/stops_overview_cubit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:oict/features/stops_overview/presentation/widget/filter_dialog.dart';
+import 'package:oict/router/route_constants.dart';
 import 'package:oict/router/routes.dart';
 
 class StopsOverviewScreen extends StatelessWidget {
@@ -13,25 +14,41 @@ class StopsOverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<StopsOverviewCubit, StopsOverviewState>(
-        listener: (context, state) async {
-          switch (state) {
-            case StopsOverviewStateOpenedFilter():
-              final filter = await showDialog(
-                fullscreenDialog: true,
-                context: context,
-                builder: (context) {
-                  return const FilterDialog();
-                },
-              );
-              if (context.mounted) {
-                context.read<StopsOverviewCubit>().applyFilter(filter);
-              }
-              break;
-            default:
-              break;
-          }
-        },
+      appBar: AppBar(
+        title: const Text(RouteConstants.STOPS_OVERVIEW_TITLE),
+        actions: [
+          BlocSelector<StopsOverviewCubit, StopsOverviewState, bool?>(
+            selector: (state) {
+              return state.data.isFiltered;
+            },
+            builder: (context, isFiltered) {
+              return !(isFiltered ?? false)
+                  ? IconButton(
+                      onPressed: () async {
+                        final filter = await showDialog(
+                          fullscreenDialog: true,
+                          context: context,
+                          builder: (context) {
+                            return const FilterDialog();
+                          },
+                        );
+                        if (context.mounted) {
+                          context.read<StopsOverviewCubit>().applyFilter(filter);
+                        }
+                      },
+                      icon: const Icon(Icons.filter_list),
+                    )
+                  : IconButton(
+                      onPressed: () async {
+                        context.read<StopsOverviewCubit>().removeFilter();
+                      },
+                      icon: const Icon(Icons.filter_list_off),
+                    );
+            },
+          ),
+        ],
+      ),
+      body: BlocBuilder<StopsOverviewCubit, StopsOverviewState>(
         builder: (context, state) {
           return SafeArea(
             child: PagedListView<int, StopFeatureDto>.separated(
