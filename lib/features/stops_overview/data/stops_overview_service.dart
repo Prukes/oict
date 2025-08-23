@@ -9,14 +9,11 @@ class StopsOverviewService extends DioClient {
   final String path = '/v2/gtfs/stops';
   StopsOverviewService(super.dio);
 
-  Future<StopFeatureCollectionDto> getStops({int limit = 10, int offset = 0}) async {
+  Future<StopFeatureCollectionDto> getStops({int limit = 10, int offset = 0, String? filter}) async {
     try {
       final response = await get(
         path,
-        queryParameters: {
-          'limit': limit,
-          'offset': offset,
-        },
+        queryParameters: {'limit': limit, 'offset': offset, if (filter != null) 'names': filter},
       );
       if (response.statusCode == HttpStatus.ok && response.data != null) {
         return StopFeatureCollectionDto.fromJson(response.data! as Map<String, dynamic>);

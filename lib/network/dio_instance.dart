@@ -13,7 +13,7 @@ class DioInstance {
         'x-access-token': dotenv.get('API_KEY'),
       },
     ),
-  );
+  )..interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
 
   static Dio get instance => _dio;
 }

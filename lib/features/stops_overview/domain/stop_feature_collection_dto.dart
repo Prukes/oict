@@ -41,7 +41,7 @@ abstract class StopPropertiesDto with _$StopPropertiesDto {
     @JsonKey(name: 'parent_station') String? parentStation,
     @JsonKey(name: 'platform_code') String? platformCode,
     @JsonKey(name: 'stop_id') required String stopId,
-    @JsonKey(name: 'stop_name') required String stopName,
+    @JsonKey(name: 'stop_name') String? stopName,
     @JsonKey(name: 'wheelchair_boarding') required int wheelchairBoarding,
     @JsonKey(name: 'zone_id') String? zoneId,
     @JsonKey(name: 'level_id') String? levelId,
