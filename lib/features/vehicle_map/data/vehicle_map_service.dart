@@ -9,7 +9,7 @@ class VehicleMapService extends DioClient {
 
   Future<PublicVehiclePositionDto> getVehiclePosition(String vehicleId) async {
     try {
-      final response = await get('$path/$vehicleId');
+      final response = await get('$path/$vehicleId', queryParameters: {'scopes': 'info'});
       if (response.statusCode == 200 && response.data != null) {
         return PublicVehiclePositionDto.fromJson(response.data);
       }

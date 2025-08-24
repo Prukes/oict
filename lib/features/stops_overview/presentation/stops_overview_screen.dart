@@ -5,6 +5,7 @@ import 'package:oict/features/stops_overview/domain/stop_feature_collection_dto.
 import 'package:oict/features/stops_overview/presentation/cubit/stops_overview_cubit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:oict/features/stops_overview/presentation/widget/filter_dialog.dart';
+import 'package:oict/features/stops_overview/presentation/widget/stop_list_tile.dart';
 import 'package:oict/router/route_constants.dart';
 import 'package:oict/router/routes.dart';
 
@@ -54,7 +55,6 @@ class StopsOverviewScreen extends StatelessWidget {
             child: PagedListView<int, StopFeatureDto>.separated(
               state: state.data.pagingState,
               fetchNextPage: context.read<StopsOverviewCubit>().loadStops,
-
               builderDelegate: PagedChildBuilderDelegate(
                 firstPageErrorIndicatorBuilder: (context) {
                   return Center(child: Text('Chyba při načítání první stránky'));
@@ -66,11 +66,8 @@ class StopsOverviewScreen extends StatelessWidget {
                   return Center(child: Text('Nebyly nalezeny žádné zastávky'));
                 },
                 itemBuilder: (context, item, index) {
-                  return ListTile(
-                    onTap: () {
-                      StopDepartureBoardRouteData(stopId: item.properties.stopId).push(context);
-                    },
-                    title: Text(item.toString()),
+                  return StopListTile(
+                    stop: item,
                   );
                 },
               ),

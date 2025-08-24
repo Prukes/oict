@@ -45,7 +45,7 @@ abstract class PublicDepartureStopDto with _$PublicDepartureStopDto {
   const factory PublicDepartureStopDto({
     required String id,
     required int sequence,
-    String? platform_code,
+    @JsonKey(name: 'platform_code') String? platformCode,
   }) = _PublicDepartureStopDto;
 
   factory PublicDepartureStopDto.fromJson(Map<String, dynamic> json) => _$PublicDepartureStopDtoFromJson(json);

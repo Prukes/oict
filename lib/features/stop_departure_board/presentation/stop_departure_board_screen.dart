@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oict/features/stop_departure_board/presentation/bloc/stop_departure_board_bloc.dart';
+import 'package:oict/features/stop_departure_board/presentation/widgets/departure_board_tile.dart';
 import 'package:oict/router/route_constants.dart';
+import 'package:oict/router/routes.dart';
 
 class StopDepartureBoardScreen extends StatelessWidget {
   const StopDepartureBoardScreen({super.key});
@@ -25,15 +27,15 @@ class StopDepartureBoardScreen extends StatelessWidget {
             case StopDepartureBoardStateInitial _ || StopDepartureBoardStateLoading _:
               return const Center(child: CircularProgressIndicator());
             case StopDepartureBoardStateSuccess _:
+              final group = state.data.departures.first.group;
               return ListView.separated(
-                itemCount: state.data.departures.length,
+                itemCount: group.length,
                 separatorBuilder: (context, index) {
                   return const Divider();
                 },
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(state.data.departures[index].toString()),
-                  );
+                  final item = group[index];
+                  return DepartureBoardTile(item: item);
                 },
               );
             case StopDepartureBoardStateError error:

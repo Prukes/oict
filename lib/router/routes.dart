@@ -5,6 +5,8 @@ import 'package:oict/features/stop_departure_board/presentation/bloc/stop_depart
 import 'package:oict/features/stop_departure_board/presentation/stop_departure_board_screen.dart';
 import 'package:oict/features/stops_overview/presentation/cubit/stops_overview_cubit.dart';
 import 'package:oict/features/stops_overview/presentation/stops_overview_screen.dart';
+import 'package:oict/features/vehicle_map/presentation/bloc/vehicle_position_bloc.dart';
+import 'package:oict/features/vehicle_map/presentation/vehicle_position_screen.dart';
 import 'package:oict/router/route_constants.dart';
 
 part 'routes.g.dart';
@@ -55,6 +57,10 @@ class VehicleMapRouteData extends GoRouteData with _$VehicleMapRouteData {
   const VehicleMapRouteData({required this.stopId, required this.vehicleId});
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return Text('');
+    return BlocProvider(
+      key: ValueKey(vehicleId),
+      create: (context) => VehiclePositionBloc(vehicleId: vehicleId)..add(VehiclePositionEvent.started()),
+      child: VehiclePositionScreen(),
+    );
   }
 }
